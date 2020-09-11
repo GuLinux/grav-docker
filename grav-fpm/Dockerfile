@@ -1,6 +1,6 @@
 FROM php:7-fpm
 WORKDIR /var/www/
-ENV GRAV_VERSION=1.6.6
+ENV GRAV_VERSION=1.6.27
 RUN apt-get update && \
     apt-get install -y unzip libzip-dev libjpeg62-turbo-dev libpng-dev libfreetype6-dev zlib1g-dev && \
     apt-get clean && \
