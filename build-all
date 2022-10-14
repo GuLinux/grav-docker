@@ -1,0 +1,36 @@
+#!/bin/bash
+
+while [ -n "$1" ]; do
+    case "$1" in
+        -c|--clean)
+            CLEAN=true
+            ;;
+        -p|--push)
+            PUSH=true
+            ;;
+        *)
+            echo "Usage: $0 [-c|--clean] [-p|--push]" >&2
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+if [ "$CLEAN" = true ]; then
+    docker rmi php:7-fpm php:7-apache gulinux/grav-docker:apache2 gulinux/grav-docker:fpm 
+fi
+
+(
+    cd grav-apache2/
+    docker build -t gulinux/grav-docker:apache2 .
+)
+
+(
+    cd grav-fpm/
+    docker build -t gulinux/grav-docker:fpm .
+)
+
+if [ "$PUSH" = true ]; then
+    docker push gulinux/grav-docker:apache2
+    docker push gulinux/grav-docker:fpm
+fi
